@@ -1,7 +1,9 @@
 import app from "./app";
-import { prisma } from "./lib/prisma";
- import "dotenv/config";
-const PORT = process.env.PORT;
+import config from "./config";
+
+
+
+const PORT = config.port; 
 
 async function main() {
 
