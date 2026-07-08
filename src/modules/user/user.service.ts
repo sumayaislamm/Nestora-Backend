@@ -7,10 +7,6 @@ const registerUserIntoDb = async (payload : RegisterUserRequest) => {
     const { name, email, password, phone, profileImage } = payload;
     const isUserExists = await prisma.user.findUnique({ where: { email } });
     if (isUserExists) {
-        // return res.status(httpStatus.CONFLICT).json({
-        //     success: false,
-        //     message: "User already exists",
-        // });
         throw new Error("User already exists");
     }
     const hashedPassword = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
@@ -22,7 +18,7 @@ const registerUserIntoDb = async (payload : RegisterUserRequest) => {
             phone,
             profileImage
 
-        },
+        }, 
         omit: {
             password: true,
         },
