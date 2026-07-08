@@ -18,6 +18,7 @@ const registerUserIntoDb = async (payload : RegisterUserRequest) => {
             phone,
             profileImage
 
+
         }, 
         omit: {
             password: true,

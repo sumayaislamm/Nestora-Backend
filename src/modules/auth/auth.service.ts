@@ -21,9 +21,10 @@ const loginUser = async (payload: ILoginUserRequest) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
+        profileImage: user.profileImage,
         role: user.role,
         status: user.status,
-
     }
     
     const accessToken = jwtUtils.createToken(jwtPayload, config.jwt_secret, config.jwt_access_expires_in as SignOptions);    
