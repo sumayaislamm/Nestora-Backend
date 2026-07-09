@@ -3,8 +3,8 @@ import config from "../../config";
 import bcrypt from "bcryptjs";
 import { RegisterUserRequest } from "./user.interface";
 
-const registerUserIntoDb = async (payload : RegisterUserRequest) => {
-    const { name, email, password, phone, profileImage } = payload;
+const registerUserIntoDb = async (payload: RegisterUserRequest) => {
+    const { name, email, password, phone, profileImage, role, status } = payload;
     const isUserExists = await prisma.user.findUnique({ where: { email } });
     if (isUserExists) {
         throw new Error("User already exists");
@@ -16,10 +16,12 @@ const registerUserIntoDb = async (payload : RegisterUserRequest) => {
             email,
             password: hashedPassword,
             phone,
-            profileImage
+            profileImage,
+            role,
+            status
 
 
-        }, 
+        },
         omit: {
             password: true,
         },
@@ -28,20 +30,44 @@ const registerUserIntoDb = async (payload : RegisterUserRequest) => {
     return user;
 }
 
-const getMyProfileFromDB = async (userId : string) =>{
+const getMyProfileFromDB = async (userId: string) => {
     const user = await prisma.user.findUniqueOrThrow({
-        where : {id : userId},
-        omit : {
+        where: { id: userId },
+        omit: {
             password: true
-        }, 
-        include : {
-            properties :true
+        },
+        include: {
+            properties: true
         }
     });
     return user;
 }
 
+const updateMyProfileIntoDB = async (userId: string, payload: any) => {
+
+    const { name, email, password, phone, profileImage, role, status } = payload;
+    const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: {
+            name,
+            email,
+            phone,
+            profileImage,
+            password,
+            status,
+            role
+        },
+        omit: {
+            password: true
+        }
+    })
+
+    return updatedUser;
+
+
+}
 export const userService = {
     registerUserIntoDb,
-    getMyProfileFromDB
+    getMyProfileFromDB,
+    updateMyProfileIntoDB
 };
