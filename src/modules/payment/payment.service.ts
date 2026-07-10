@@ -174,9 +174,6 @@ const getSinglePaymentFromDB = async (
                 tenantId,
             },
         },
-        // where: {
-        //     id: paymentId,
-        // },
 
         include: {
             rentalRequest: {
