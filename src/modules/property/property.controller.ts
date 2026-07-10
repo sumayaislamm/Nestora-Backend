@@ -27,7 +27,7 @@ const createProperty = catchAsync(
 
 const getAllProperties = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await propertyService.getAllPropertiesFromDB();
+    const result = await propertyService.getAllPropertiesFromDB(req.query);
 
     sendResponse(res, {
       success: true,
@@ -84,7 +84,7 @@ const deleteProperty = catchAsync(
       success: true,
       statusCode: httpStatus.OK,
       message: "Property deleted successfully",
-      data: [],
+      data: null,
     });
   }
 );

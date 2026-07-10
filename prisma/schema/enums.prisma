@@ -6,7 +6,7 @@ enum Role {
 }
 
 enum Status {
-    ACTIVE 
+    ACTIVE
     BANNED
 }
 
@@ -19,19 +19,20 @@ enum Availability {
 
 // Rental Request enums
 
-enum RequestStatus{
-    PENDING 
-    APPROVED 
-    REJECTED 
-    ACTIVE 
+enum RequestStatus {
+    PENDING
+    APPROVED
+    REJECTED
+    ACTIVE
     COMPLETED
 }
- 
+
 // Payment 
 enum PaymentProvider {
     STRIPE
     SSLCOMMERZ
 }
+
 enum PaymentStatus {
     PENDING
     COMPLETED

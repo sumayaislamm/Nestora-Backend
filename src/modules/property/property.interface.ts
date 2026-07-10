@@ -1,3 +1,5 @@
+import { Availability } from "../../../generated/prisma/enums";
+
 export interface IProperty {
   title: string;
   description: string;
@@ -5,6 +7,7 @@ export interface IProperty {
   address: string;
   rent: number;
   bedrooms: number;
+  availability: Availability;
   bathrooms: number;
   size?: number;
   amenities: string[];

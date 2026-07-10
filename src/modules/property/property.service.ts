@@ -7,7 +7,8 @@ const createPropertyIntoDB = async (
     payload: IProperty
 ) => {
 
-    const { title, description, location, address, rent, bedrooms, bathrooms, size, amenities, images, categoryId } = payload;
+    const { title, description, location, address, rent, bedrooms, bathrooms, size, availability, amenities, images, categoryId } = payload;
+
 
     // Category Check 
     const category = await prisma.category.findUnique({
@@ -39,6 +40,7 @@ const createPropertyIntoDB = async (
             bedrooms,
             bathrooms,
             size,
+            availability,
             amenities,
             images,
             landlordId,
@@ -59,11 +61,74 @@ const createPropertyIntoDB = async (
 }
 
 // See All Category 
-const getAllPropertiesFromDB = async () => {
+const getAllPropertiesFromDB = async (query: Record<string, any>) => {
+    const {
+        search,
+        categoryId,
+        availability,
+        bedrooms,
+        minRent,
+        maxRent,
+        page = 1,
+        limit = 10,
+        sortBy = "createdAt",
+        sortOrder = "desc",
+    } = query;
+    const where: any = {};
+    if (search) {
+        where.OR = [
+            {
+                title: {
+                    contains: search,
+                    mode: "insensitive",
+                },
+            },
+            {
+                location: {
+                    contains: search,
+                    mode: "insensitive",
+                },
+            },
+            {
+                address: {
+                    contains: search,
+                    mode: "insensitive",
+                },
+            },
+        ];
+    }
+    if (categoryId) {
+        where.categoryId = categoryId;
+    }
+    if (availability) {
+        where.availability = availability;
+    }
+    if (bedrooms) {
+        where.bedrooms = Number(bedrooms);
+    }
+    if (minRent || maxRent) {
+        where.rent = {};
+
+        if (minRent) {
+            where.rent.gte = Number(minRent);
+        }
+
+        if (maxRent) {
+            where.rent.lte = Number(maxRent);
+        }
+    }
+    const skip = (Number(page) - 1) * Number(limit);
+    
+
     const properties = await prisma.property.findMany({
+        where,
+        skip,
+        take: Number(limit),
+
         orderBy: {
-            createdAt: "desc",
+            [sortBy]: sortOrder,
         },
+
         include: {
             landlord: {
                 select: {
@@ -77,8 +142,17 @@ const getAllPropertiesFromDB = async () => {
             category: true,
         },
     });
-
-    return properties;
+    const total = await prisma.property.count({
+        where,
+    });
+    return {
+        meta: {
+            page: Number(page),
+            limit: Number(limit),
+            total,
+        },
+        data: properties,
+    };
 };
 
 // See single category 
@@ -101,9 +175,7 @@ const getSinglePropertyFromDB = async (
             }
         }
     });
-     if (!property) {
-    throw new Error("Property not found");
-  }
+
     return property;
 
 }
@@ -182,8 +254,8 @@ const deletePropertyFromDB = async (
         throw new Error("You are not authorized to delete this property");
     }
 
-    const deleteProperty = await prisma.property.delete({
-         where: {
+     await prisma.property.delete({
+        where: {
             id: propertyId,
         }
     })
