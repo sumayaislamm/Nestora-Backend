@@ -162,7 +162,7 @@ const getMyPaymentsFromDB = async (tenantId: string) => {
     return payments;
 };
 
-//Single Payment
+//Single Payment service
 const getSinglePaymentFromDB = async (
     paymentId: string,
     tenantId: string
