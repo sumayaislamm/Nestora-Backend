@@ -3,75 +3,75 @@ import { prisma } from "../../lib/prisma";
 import { IPayment } from "./payment.interface";
 
 const createPaymentIntoDB = async (
-  tenantId: string,
-  payload: IPayment
+    tenantId: string,
+    payload: IPayment
 ) => {
-  const { rentalRequestId, provider } = payload;
+    const { rentalRequestId, provider } = payload;
 
-  // Rental request exists or not,
-  const rentalRequest = await prisma.rentalRequest.findUnique({
-    where: {
-      id: rentalRequestId,
-    },
-    include: {
-      property: true,
-    },
-  });
-
-  if (!rentalRequest) {
-    throw new Error("Rental request not found");
-  }
-
-  // Tenant exits
-  if (rentalRequest.tenantId !== tenantId) {
-    throw new Error("You are not authorized");
-  }
-
-  // approve
-  if (rentalRequest.status !== RequestStatus.APPROVED) {
-    throw new Error("Rental request is not approved yet");
-  }
-
-  //paid or not
-  const existingPayment = await prisma.payment.findUnique({
-    where: {
-      rentalRequestId,
-    },
-  });
-
-  if (existingPayment) {
-    throw new Error("Payment already exists");
-  }
-
-  // create transaction id
-  const transactionId = `TX-${Date.now()}`;
-
-  // Create payment
-  const payment = await prisma.payment.create({
-    data: {
-      rentalRequestId,
-      amount: rentalRequest.property.rent,
-      provider,
-      transactionId,
-      status: PaymentStatus.PENDING,
-    },
-    include: {
-      rentalRequest: {
-        include: {
-          property: true,
-          tenant: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-            },
-          },
+    // Rental request exists or not,
+    const rentalRequest = await prisma.rentalRequest.findUnique({
+        where: {
+            id: rentalRequestId,
         },
-      },
-    },
-  });
+        include: {
+            property: true,
+        },
+    });
 
-  return payment;
+    if (!rentalRequest) {
+        throw new Error("Rental request not found");
+    }
+
+    // Tenant exits
+    if (rentalRequest.tenantId !== tenantId) {
+        throw new Error("You are not authorized");
+    }
+
+    // approve
+    if (rentalRequest.status !== RequestStatus.APPROVED) {
+        throw new Error("Rental request is not approved yet");
+    }
+
+    //paid or not
+    const existingPayment = await prisma.payment.findUnique({
+        where: {
+            rentalRequestId,
+        },
+    });
+
+    if (existingPayment) {
+        throw new Error("Payment already exists");
+    }
+
+    // create transaction id
+    const transactionId = `TX-${Date.now()}`;
+
+    // Create payment
+    const payment = await prisma.payment.create({
+        data: {
+            rentalRequestId,
+            amount: rentalRequest.property.rent,
+            provider,
+            transactionId,
+            status: PaymentStatus.PENDING,
+        },
+        include: {
+            rentalRequest: {
+                include: {
+                    property: true,
+                    tenant: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return payment;
 };
 
 const confirmPaymentIntoDB = async (paymentId: string) => {
@@ -114,7 +114,7 @@ const confirmPaymentIntoDB = async (paymentId: string) => {
                 id: payment.rentalRequestId,
             },
             data: {
-                status: "COMPLETED", 
+                status: "COMPLETED",
             },
         });
 
@@ -133,7 +133,74 @@ const confirmPaymentIntoDB = async (paymentId: string) => {
     return result;
 };
 
-export const paymentService ={
-createPaymentIntoDB,
-confirmPaymentIntoDB
+//Get My Payments
+const getMyPaymentsFromDB = async (tenantId: string) => {
+    const payments = await prisma.payment.findMany({
+        where: {
+            rentalRequest: {
+                tenantId,
+            },
+        },
+
+        orderBy: {
+            createdAt: "desc",
+        },
+
+        include: {
+            rentalRequest: {
+                include: {
+                    property: {
+                        include: {
+                            category: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return payments;
+};
+
+//Single Payment
+const getSinglePaymentFromDB = async (
+    paymentId: string,
+    tenantId: string
+) => {
+    const payment = await prisma.payment.findUniqueOrThrow({
+        where: {
+            id: paymentId,
+            rentalRequest: {
+                tenantId,
+            },
+        },
+        // where: {
+        //     id: paymentId,
+        // },
+
+        include: {
+            rentalRequest: {
+                include: {
+                    property: {
+                        include: {
+                            category: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    if (payment.rentalRequest.tenantId !== tenantId) {
+        throw new Error("You are not authorized to view this payment");
+    }
+
+    return payment;
+};
+
+export const paymentService = {
+    createPaymentIntoDB,
+    confirmPaymentIntoDB,
+    getMyPaymentsFromDB,
+    getSinglePaymentFromDB,
 }
