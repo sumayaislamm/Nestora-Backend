@@ -9,7 +9,7 @@ Landlords can list and manage rental properties, tenants can request rentals, ma
 ## 🚀 Live API
 
 ```
-
+https://nestora-backend-8glz.onrender.com/
 ```
 
 ---
@@ -25,7 +25,7 @@ https://github.com/sumayaislamm/Nestora-Backend
 ## 📮 API Documentation (Postman)
 
 ```
-
+https://documenter.getpostman.com/view/55052094/2sBY4LS31q#0fc24027-fb8e-4e33-82c9-5aa6cd4aaf2b
 ```
 
 ---
