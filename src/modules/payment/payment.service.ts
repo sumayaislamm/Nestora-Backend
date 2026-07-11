@@ -1,8 +1,8 @@
 import Stripe from "stripe";
-import { PaymentStatus, RequestStatus } from "../../../generated/prisma/enums";
-import { prisma } from "../../lib/prisma";
-import { IPayment } from "./payment.interface";
-import config from "../../config";
+import { PaymentStatus, RequestStatus } from "../../generated/prisma/enums.js";
+import { prisma } from "../../lib/prisma.js";
+import { IPayment } from "./payment.interface.js";
+import config from "../../config/index.js";
 
 const stripe = new Stripe(config.stripe_secret_key as string);
 
@@ -125,7 +125,8 @@ const confirmPaymentIntoDB = async (paymentId: string) => {
         throw new Error("Payment already completed");
     }
 
-    const result = await prisma.$transaction(async (tx) => {
+    // const result = await prisma.$transaction(async (tx) => { 
+        const result = await prisma.$transaction(async (tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0]) => {
 
         const updatedPayment = await tx.payment.update({
             where: {

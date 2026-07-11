@@ -1,7 +1,7 @@
-import { catchAsync } from "../../utils/catchAsync";
-import { sendResponse } from "../../utils/sendResponse";
+import { catchAsync } from "../../utils/catchAsync.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatus from "http-status";
-import { adminService } from "./admin.service";
+import { adminService } from "./admin.service.js";
 import { Request, Response } from "express";
 
 const getAllUsers = catchAsync(async (req, res) => {

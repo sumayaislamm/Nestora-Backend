@@ -1,5 +1,5 @@
-import { prisma } from "../../lib/prisma";
-import { ICategory } from "./category.interface";
+import { prisma } from "../../lib/prisma.js";
+import { ICategory } from "./category.interface.js";
 
 const createCategoryIntoDB = async (payload: ICategory) => {
   const { name } = payload;

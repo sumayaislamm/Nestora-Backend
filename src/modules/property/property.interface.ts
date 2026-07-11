@@ -1,4 +1,4 @@
-import { Availability } from "../../../generated/prisma/enums";
+import { Availability } from "../../generated/prisma/enums.js";
 
 export interface IProperty {
   title: string;

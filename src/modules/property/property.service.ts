@@ -1,5 +1,5 @@
-import { IProperty } from "./property.interface";
-import { prisma } from "../../lib/prisma";
+import { IProperty } from "./property.interface.js";
+import { prisma } from "../../lib/prisma.js";
 
 
 // Create 

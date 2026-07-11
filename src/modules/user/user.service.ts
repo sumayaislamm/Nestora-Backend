@@ -1,8 +1,8 @@
-import { prisma } from "../../lib/prisma";
-import config from "../../config";
+import { prisma } from "../../lib/prisma.js";
+import config from "../../config/index.js";
 import bcrypt from "bcryptjs";
-import { RegisterUserRequest } from "./user.interface";
-import { Role, Status } from "../../../generated/prisma/enums";
+import { Role, Status } from "../../generated/prisma/enums.js";
+import type { RegisterUserRequest } from "./user.interface.js";
 
 const registerUserIntoDb = async (payload: RegisterUserRequest) => {
     const { name, email, password, phone, profileImage, role } = payload;
@@ -20,8 +20,8 @@ const registerUserIntoDb = async (payload: RegisterUserRequest) => {
             name,
             email,
             password: hashedPassword,
-            phone,
-            profileImage,
+            phone: phone ?? null,
+            profileImage: profileImage ?? null,
             role,
             status: Status.ACTIVE,
         },

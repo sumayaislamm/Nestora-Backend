@@ -1,18 +1,18 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { Application, Request, Response } from "express";
-import config from "./config";
-import { prisma } from "./lib/prisma";
-import { userRouter } from "./modules/user/user.route";
-import { authRouter } from "./modules/auth/auth.route";
-import { categoryRouter } from "./modules/category/category.route";
-import { propertyRoutes } from "./modules/property/property.route";
-import { rentalRoute } from "./modules/rental-request/rentalRequest.route";
-import { paymentRouter } from "./modules/payment/payment.route";
-import { reviewRoutes } from "./modules/review/review.route";
-import { adminRoutes } from "./modules/admin/admin.route";
-import { globalErrorHandler } from "./middlewares/globalErrorHandler";
-import { notFound } from "./middlewares/notFound";
+import express,{ Response, type Application, type Request } from "express";
+import { userRouter } from "./modules/user/user.route.js";
+import { authRouter } from "./modules/auth/auth.route.js";
+import { categoryRouter } from "./modules/category/category.route.js";
+import { propertyRoutes } from "./modules/property/property.route.js";
+import { rentalRoute } from "./modules/rental-request/rentalRequest.route.js";
+import { paymentRouter } from "./modules/payment/payment.route.js";
+import { reviewRoutes } from "./modules/review/review.route.js";
+import { adminRoutes } from "./modules/admin/admin.route.js";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler.js";
+import { notFound } from "./middlewares/notFound.js";
+import config from "./config/index.js";
+import { prisma } from "./lib/prisma.js";
 
 const app: Application = express();
 

@@ -1,5 +1,7 @@
-import { prisma } from "../../lib/prisma";
-import { IRentalRequest } from "./rentalRequest.interface"
+import { prisma } from "../../lib/prisma.js";
+import { IRentalRequest } from "./rentalRequest.interface.js";
+
+import { RequestStatus } from "../../generated/prisma/enums.js";
 
 const createRentalRequestIntoDB = async (
     tenantId: string,
@@ -147,7 +149,6 @@ const getLandlordRequestsFromDB = async (
   });
 };
 
-import { RequestStatus } from "../../../generated/prisma/enums";
 
 const updateRentalStatusIntoDB = async (
   rentalRequestId: string,

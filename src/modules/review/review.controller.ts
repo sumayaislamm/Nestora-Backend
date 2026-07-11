@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { catchAsync } from "../../utils/catchAsync";
+import { catchAsync } from "../../utils/catchAsync.js";
 import httpStatus from "http-status";
-import { sendResponse } from "../../utils/sendResponse";
-import { reviewService } from "./review.service";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { reviewService } from "./review.service.js";
 
 
 const createReview = catchAsync(

@@ -1,5 +1,5 @@
-import { Status } from "../../../generated/prisma/enums";
-import { prisma } from "../../lib/prisma";
+import { Status } from "../../generated/prisma/enums.js";
+import { prisma } from "../../lib/prisma.js";
 
 const getAllUsersFromDB = async () => {
     return await prisma.user.findMany({

@@ -1,4 +1,4 @@
-import { PaymentProvider, PaymentStatus } from "../../../generated/prisma/enums";
+import { PaymentProvider, PaymentStatus } from "../../generated/prisma/enums.js";
 
 export interface IPayment {
   rentalRequestId: string;

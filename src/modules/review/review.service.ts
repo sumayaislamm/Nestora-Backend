@@ -1,5 +1,5 @@
-import { IReview } from "./review.interface";
-import { prisma } from "../../lib/prisma";
+import { IReview } from "./review.interface.js";
+import { prisma } from "../../lib/prisma.js";
 
 const reviewCreateIntoDB = async (
     tenantId: string,

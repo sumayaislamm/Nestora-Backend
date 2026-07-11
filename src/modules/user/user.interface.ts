@@ -1,4 +1,4 @@
-import { Role, Status } from "../../../generated/prisma/enums";
+import { Role, Status } from "../../generated/prisma/enums.js";
 
 export interface RegisterUserRequest {
     name: string;
