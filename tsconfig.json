@@ -1,29 +1,50 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
     "target": "ES2023",
     "module": "ESNext",
     "moduleResolution": "bundler",
-
+    "outDir": "./dist",
     "strict": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
-
     "types": ["node"],
-
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
     "noUncheckedIndexedAccess": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force"
+    "noUncheckedSideEffectImports": true
   },
-
-  "include": ["src/**/*"],
-
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
+
+// {
+//   "compilerOptions": {
+//     "outDir": "./dist",
+//     "target": "ES2023",
+//     "module": "ESNext",
+//     "moduleResolution": "bundler",
+
+//     "strict": true,
+//     "isolatedModules": true,
+//     "skipLibCheck": true,
+
+//     "types": ["node"],
+
+//     "sourceMap": true,
+//     "declaration": true,
+//     "declarationMap": true,
+
+//     "noUncheckedIndexedAccess": true,
+//     "noUncheckedSideEffectImports": true,
+//     "moduleDetection": "force"
+//   },
+
+//   "include": ["src/**/*"],
+
+//   "exclude": [
+//     "node_modules",
+//     "dist"
+//   ]
+// }
