@@ -1,6 +1,10 @@
+import Stripe from "stripe";
 import { PaymentStatus, RequestStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { IPayment } from "./payment.interface";
+import config from "../../config";
+
+const stripe = new Stripe(config.stripe_secret_key as string);
 
 const createPaymentIntoDB = async (
     tenantId: string,
@@ -43,8 +47,29 @@ const createPaymentIntoDB = async (
         throw new Error("Payment already exists");
     }
 
-    // create transaction id
-    const transactionId = `TX-${Date.now()}`;
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        mode: "payment",
+
+        line_items: [
+            {
+                price_data: {
+                    currency: "usd",
+                    product_data: {
+                        name: rentalRequest.property.title,
+                    },
+                    unit_amount: Number(rentalRequest.property.rent) * 100,
+                },
+                quantity: 1,
+            },
+        ],
+
+        success_url: `${config.app_url}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+
+        cancel_url: `${config.app_url}/payment-cancel`,
+    });
+
+    const transactionId = session.id;
 
     // Create payment
     const payment = await prisma.payment.create({
@@ -71,7 +96,10 @@ const createPaymentIntoDB = async (
         },
     });
 
-    return payment;
+    return {
+        payment,
+        checkoutUrl: session.url,
+    };
 };
 
 const confirmPaymentIntoDB = async (paymentId: string) => {

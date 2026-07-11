@@ -7,6 +7,7 @@ const createCategoryIntoDB = async (payload: ICategory) => {
   const formattedName =
     name.trim().charAt(0).toUpperCase() +
     name.trim().slice(1).toLowerCase();
+    
   // Check Already created category 
   const isCategoryExists = await prisma.category.findUnique({
     where: {

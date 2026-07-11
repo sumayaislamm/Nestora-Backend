@@ -1,6 +1,7 @@
 import { IProperty } from "./property.interface";
 import { prisma } from "../../lib/prisma";
 
+
 // Create 
 const createPropertyIntoDB = async (
     landlordId: string,
