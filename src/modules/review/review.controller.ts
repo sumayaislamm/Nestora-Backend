@@ -25,6 +25,20 @@ const createReview = catchAsync(
     }
 );
 
+const getAllReviews = catchAsync(
+  async (req: Request, res: Response) => {
+    const reviews = await reviewService.getAllReviewsFromDB();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Reviews fetched successfully",
+      data: { reviews },
+    });
+  }
+);
+
 export const reviewController = {
-    createReview
+    createReview,
+    getAllReviews
 }
