@@ -13,7 +13,7 @@ export const catchAsync = (fn: RequestHandler) => {
                 success: false,
                 statusCode: httpStatus.INTERNAL_SERVER_ERROR,
                 message: "Failed to process the request",
-                error: (error as Error).message
+                errorDetails: (error as Error).message
             });
         }
     };

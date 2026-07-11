@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/prisma";
-import { Role, Status } from "../generated/prisma/enums";
+import { Role, Status } from "../src/generated/prisma/enums";
 
 async function main() {
   const adminExists = await prisma.user.findUnique({

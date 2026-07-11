@@ -5,7 +5,7 @@ export const notFound = (req: Request, res: Response) => {
         success: false,
         statusCode: 404,
         message: "API endpoint not found",
-        error: {
+        errorDetails: {
             path: req.originalUrl,
             message: "No route found with this URL",
         },
