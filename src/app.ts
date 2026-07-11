@@ -18,10 +18,16 @@ const app: Application = express();
 
 
 // Middleware 
-app.use(cors({
-    origin: config.app_url,
-    credentials: true
-}))
+// app.use(cors({
+//     origin: config.app_url,
+//     credentials: true
+// }));
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

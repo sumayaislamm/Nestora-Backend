@@ -1,4 +1,4 @@
-# 🏠 RentNest Backend API
+# 🏠 Nestora Backend API
 
 A robust backend REST API for a rental property marketplace built with **Node.js**, **Express.js**, **TypeScript**, **PostgreSQL**, and **Prisma ORM**.
 
@@ -9,7 +9,7 @@ Landlords can list and manage rental properties, tenants can request rentals, ma
 ## 🚀 Live API
 
 ```
-https://YOUR-LIVE-API.onrender.com
+
 ```
 
 ---
@@ -17,7 +17,7 @@ https://YOUR-LIVE-API.onrender.com
 ## 📂 GitHub Repository
 
 ```
-https://github.com/YOUR_USERNAME/rentnest-backend
+https://github.com/sumayaislamm/Nestora-Backend
 ```
 
 ---
@@ -25,7 +25,7 @@ https://github.com/YOUR_USERNAME/rentnest-backend
 ## 📮 API Documentation (Postman)
 
 ```
-https://documenter.getpostman.com/view/YOUR_POSTMAN_LINK
+
 ```
 
 ---
@@ -163,13 +163,13 @@ src
 Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/rentnest-backend.git
+git clone https://github.com/sumayaislamm/Nestora-Backend
 ```
 
 Move into project
 
 ```bash
-cd rentnest-backend
+cd nextora-backend
 ```
 
 Install dependencies
@@ -390,23 +390,23 @@ Property Status → RENTED
 Email
 
 ```
-YOUR_ADMIN_EMAIL
+admin@rentnest.com
 ```
 
 Password
 
 ```
-YOUR_ADMIN_PASSWORD
+admin123
 ```
 
 ---
 
 # 👨‍💻 Author
 
-**YOUR NAME**
+**SUMAYA ISLAM**
 
 GitHub
 
 ```
-https://github.com/YOUR_USERNAME
+https://github.com/sumayaislamm
 ```
