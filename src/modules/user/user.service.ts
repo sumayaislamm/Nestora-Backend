@@ -2,14 +2,19 @@ import { prisma } from "../../lib/prisma";
 import config from "../../config";
 import bcrypt from "bcryptjs";
 import { RegisterUserRequest } from "./user.interface";
+import { Role, Status } from "../../../generated/prisma/enums";
 
 const registerUserIntoDb = async (payload: RegisterUserRequest) => {
-    const { name, email, password, phone, profileImage, role, status } = payload;
+    const { name, email, password, phone, profileImage, role } = payload;
     const isUserExists = await prisma.user.findUnique({ where: { email } });
     if (isUserExists) {
         throw new Error("User already exists");
     }
+
     const hashedPassword = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
+    if (role === Role.ADMIN) {
+        throw new Error("Admin registration is not allowed");
+    }
     const user = await prisma.user.create({
         data: {
             name,
@@ -18,9 +23,7 @@ const registerUserIntoDb = async (payload: RegisterUserRequest) => {
             phone,
             profileImage,
             role,
-            status
-
-
+            status: Status.ACTIVE,
         },
         omit: {
             password: true,
@@ -45,17 +48,14 @@ const getMyProfileFromDB = async (userId: string) => {
 
 const updateMyProfileIntoDB = async (userId: string, payload: any) => {
 
-    const { name, email, password, phone, profileImage, role, status } = payload;
+    const { name, email, phone, profileImage } = payload;
     const updatedUser = await prisma.user.update({
         where: { id: userId },
         data: {
             name,
             email,
             phone,
-            profileImage,
-            password,
-            status,
-            role
+            profileImage
         },
         omit: {
             password: true

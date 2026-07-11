@@ -15,6 +15,7 @@ const loginUser = async (payload: ILoginUserRequest) => {
     if (user.status === "BANNED") {
         throw new Error("Your account has been blocked, Please contact support.")
     }
+    
     const isPasswordMatched = await bcrypt.compare(password, user.password);
     if (!isPasswordMatched) {
         throw new Error("Invalid user password");

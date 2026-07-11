@@ -7,6 +7,5 @@ export interface RegisterUserRequest {
     phone?: string;
     profileImage?: string;
     role: Role;
-    status: Status;
 }
 
