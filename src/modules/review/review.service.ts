@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 import { IReview } from "./review.interface";
 import { prisma } from "../../lib/prisma";
 
