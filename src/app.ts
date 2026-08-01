@@ -67,12 +67,3 @@ app.use(globalErrorHandler);
 
 export default app;
 
-
-// httpStatus.OK                  // 200
-// httpStatus.CREATED             // 201
-// httpStatus.BAD_REQUEST         // 400
-// httpStatus.UNAUTHORIZED        // 401
-// httpStatus.FORBIDDEN           // 403
-// httpStatus.NOT_FOUND           // 404
-// httpStatus.CONFLICT            // 409
-// httpStatus.INTERNAL_SERVER_ERROR // 500

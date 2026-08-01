@@ -14,7 +14,11 @@ router.post(
   propertyController.createProperty
 );
 
-
+router.get(
+  "/properties/my-properties",
+  auth(Role.LANDLORD),
+  propertyController.getMyProperties
+);
 
 router.patch(
   "/properties/:id",
