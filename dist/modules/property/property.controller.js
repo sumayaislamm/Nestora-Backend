@@ -44,6 +44,16 @@ const updateProperty = catchAsync(async (req, res, next) => {
         data: { property },
     });
 });
+const getMyProperties = catchAsync(async (req, res) => {
+    const landlordId = req.user.id;
+    const properties = await propertyService.getMyPropertiesFromDB(landlordId);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "My properties fetched successfully",
+        data: properties,
+    });
+});
 const deleteProperty = catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const landlordId = req.user.id;
@@ -60,6 +70,7 @@ export const propertyController = {
     getAllProperties,
     getSingleProperty,
     updateProperty,
+    getMyProperties,
     deleteProperty,
 };
 //# sourceMappingURL=property.controller.js.map

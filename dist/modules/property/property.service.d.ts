@@ -133,5 +133,37 @@ export declare const propertyService: {
         categoryId: string;
     }>;
     deletePropertyFromDB: (propertyId: string, landlordId: string) => Promise<void>;
+    getMyPropertiesFromDB: (landlordId: string) => Promise<({
+        category: {
+            id: string;
+            name: string;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+        landlord: {
+            id: string;
+            name: string;
+            email: string;
+            phone: string | null;
+            profileImage: string | null;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        description: string;
+        location: string;
+        address: string;
+        rent: import("@prisma/client-runtime-utils").Decimal;
+        bedrooms: number;
+        bathrooms: number;
+        size: number | null;
+        availability: import("../../generated/prisma/enums.js").Availability;
+        amenities: string[];
+        images: string[];
+        landlordId: string;
+        categoryId: string;
+    })[]>;
 };
 //# sourceMappingURL=property.service.d.ts.map

@@ -21,7 +21,8 @@ app.use(cors({
     origin: true,
     credentials: true,
 }));
-app.use(express.json());
+// app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.get("/", (req, res) => {
@@ -46,12 +47,4 @@ app.use(notFound);
 // global error 
 app.use(globalErrorHandler);
 export default app;
-// httpStatus.OK                  // 200
-// httpStatus.CREATED             // 201
-// httpStatus.BAD_REQUEST         // 400
-// httpStatus.UNAUTHORIZED        // 401
-// httpStatus.FORBIDDEN           // 403
-// httpStatus.NOT_FOUND           // 404
-// httpStatus.CONFLICT            // 409
-// httpStatus.INTERNAL_SERVER_ERROR // 500
 //# sourceMappingURL=app.js.map

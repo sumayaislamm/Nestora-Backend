@@ -10,7 +10,7 @@ export const catchAsync = (fn) => {
                 success: false,
                 statusCode: httpStatus.INTERNAL_SERVER_ERROR,
                 message: "Failed to process the request",
-                error: error.message
+                errorDetails: error.message
             });
         }
     };
