@@ -155,6 +155,152 @@ const createPropertyIntoDB = async (
 //         data: properties,
 //     };
 // };
+// const getAllPropertiesFromDB = async (query: Record<string, any>) => {
+//     const {
+//         search,
+//         categoryId,
+//         availability,
+//         bedrooms,
+//         minRent,
+//         maxRent,
+//         location,
+//         amenity,
+//         page = 1,
+//         limit = 10,
+//         sortBy = "createdAt",
+//         sortOrder = "desc",
+//     } = query;
+
+//     const where: any = {};
+
+//     // Search
+//     if (search) {
+//         where.OR = [
+//             {
+//                 title: {
+//                     contains: search,
+//                     mode: "insensitive",
+//                 },
+//             },
+//             {
+//                 location: {
+//                     contains: search,
+//                     mode: "insensitive",
+//                 },
+//             },
+//             {
+//                 address: {
+//                     contains: search,
+//                     mode: "insensitive",
+//                 },
+//             },
+//         ];
+//     }
+
+//     // Category
+//     if (categoryId) {
+//         where.categoryId = categoryId;
+//     }
+
+//     // Availability
+//     if (availability) {
+//         where.availability = availability;
+//     }
+
+//     // Bedrooms
+//     if (bedrooms) {
+//         where.bedrooms = Number(bedrooms);
+//     }
+
+//     // Location
+//     if (location) {
+//         where.location = {
+//             contains: location,
+//             mode: "insensitive",
+//         };
+//     }
+
+//     // Amenity
+//     if (amenity) {
+//         where.amenities = {
+//             has: amenity,
+//         };
+//     }
+
+//     // Rent
+//     if (minRent || maxRent) {
+//         where.rent = {};
+
+//         if (minRent) {
+//             where.rent.gte = Number(minRent);
+//         }
+
+//         if (maxRent) {
+//             where.rent.lte = Number(maxRent);
+//         }
+//     }
+
+//     // Pagination
+//     const currentPage = Math.max(1, Number(page));
+//     const pageLimit = Math.max(1, Number(limit));
+
+//     const skip = (currentPage - 1) * pageLimit;
+
+//     // Sorting
+//     const allowedSortFields = [
+//         "createdAt",
+//         "rent",
+//         "title",
+//     ];
+
+//     const safeSortBy = allowedSortFields.includes(sortBy)
+//         ? sortBy
+//         : "createdAt";
+
+//     const safeSortOrder =
+//         sortOrder === "asc" ? "asc" : "desc";
+
+//     // IMPORTANT:
+//     // Filter first → count matching → paginate matching
+//     const [properties, total] = await Promise.all([
+//         prisma.property.findMany({
+//             where,
+//             skip,
+//             take: pageLimit,
+
+//             orderBy: {
+//                 [safeSortBy]: safeSortOrder,
+//             },
+
+//             include: {
+//                 landlord: {
+//                     select: {
+//                         id: true,
+//                         name: true,
+//                         email: true,
+//                         phone: true,
+//                         profileImage: true,
+//                     },
+//                 },
+//                 category: true,
+//             },
+//         }),
+
+//         prisma.property.count({
+//             where,
+//         }),
+//     ]);
+
+//     return {
+//         meta: {
+//             page: currentPage,
+//             limit: pageLimit,
+//             total,
+//         },
+//         data: properties,
+//     };
+// };
+
 const getAllPropertiesFromDB = async (query: Record<string, any>) => {
     const {
         search,
@@ -212,22 +358,22 @@ const getAllPropertiesFromDB = async (query: Record<string, any>) => {
         where.bedrooms = Number(bedrooms);
     }
 
-    // Location
+    // EXACT LOCATION FILTER
     if (location) {
         where.location = {
-            contains: location,
+            equals: location.trim(),
             mode: "insensitive",
         };
     }
 
-    // Amenity
+    // EXACT AMENITY FILTER
     if (amenity) {
         where.amenities = {
-            has: amenity,
+            has: amenity.trim(),
         };
     }
 
-    // Rent
+    // Rent range
     if (minRent || maxRent) {
         where.rent = {};
 
@@ -243,25 +389,17 @@ const getAllPropertiesFromDB = async (query: Record<string, any>) => {
     // Pagination
     const currentPage = Math.max(1, Number(page));
     const pageLimit = Math.max(1, Number(limit));
-
     const skip = (currentPage - 1) * pageLimit;
 
-    // Sorting
-    const allowedSortFields = [
-        "createdAt",
-        "rent",
-        "title",
-    ];
+    // Safe sorting
+    const allowedSortFields = ["createdAt", "rent", "title"];
 
     const safeSortBy = allowedSortFields.includes(sortBy)
         ? sortBy
         : "createdAt";
 
-    const safeSortOrder =
-        sortOrder === "asc" ? "asc" : "desc";
+    const safeSortOrder = sortOrder === "asc" ? "asc" : "desc";
 
-    // IMPORTANT:
-    // Filter first → count matching → paginate matching
     const [properties, total] = await Promise.all([
         prisma.property.findMany({
             where,
