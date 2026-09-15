@@ -364,10 +364,10 @@ const getAllPropertiesFromDB = async (query: Record<string, any>) => {
     where.bedrooms = Number(bedrooms);
   }
 
-  // EXACT LOCATION FILTER
+  // LOCATION FILTER
   if (location) {
     where.location = {
-      equals: location.trim(),
+      contains: location.trim(),
       mode: "insensitive",
     };
   }
