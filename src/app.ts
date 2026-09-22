@@ -13,6 +13,7 @@ import { globalErrorHandler } from "./middlewares/globalErrorHandler.js";
 import { notFound } from "./middlewares/notFound.js";
 import config from "./config/index.js";
 import { prisma } from "./lib/prisma.js";
+import { contactRouter } from "./modules/contact/contact.route.js";
 
 const app: Application = express();
 
@@ -53,7 +54,10 @@ app.use("/api", rentalRoute);
 app.use("/api", paymentRouter)
 
 //review
-app.use("/api", reviewRoutes)
+app.use("/api", reviewRoutes);
+
+// contact
+app.use("/api/contact", contactRouter);
 
 //admin
 app.use("/api", adminRoutes);

@@ -1,0 +1,12 @@
+model ContactMessage {
+  id         String        @id @default(uuid())
+  name       String
+  email      String
+  topic      String
+  message    String
+  status     ContactStatus @default(UNREAD)
+  adminReply String?
+  repliedAt  DateTime?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}

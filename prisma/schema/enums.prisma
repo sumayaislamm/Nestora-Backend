@@ -38,3 +38,9 @@ enum PaymentStatus {
     COMPLETED
     FAILED
 }
+
+enum ContactStatus {
+  UNREAD
+  READ
+  REPLIED
+}
